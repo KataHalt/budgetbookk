@@ -4,32 +4,41 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Getter
 @Entity
 @Table(name = "transactions")
 public class Transaction {
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @NotNull
     @DecimalMin(value = "0.01")
     private BigDecimal amount;
 
+    @Setter
     @NotNull
     private LocalDate bookingDate;
 
+    @Setter
     @NotNull
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
+    @Setter
     @Size(max = 200)
     private String description;
 
+    @Setter
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
@@ -41,59 +50,4 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public LocalDate getBookingDate() {
-        return bookingDate;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setBookingDate(LocalDate bookingDate) {
-        this.bookingDate = bookingDate;
-    }
-
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
 }
