@@ -1,9 +1,12 @@
-package model;
+package org.example.budgetbookk.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 @Entity
 public class Category {
 
@@ -14,10 +17,12 @@ public class Category {
     @NotBlank
     private String name;
 
+    @Setter
     @NotNull
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
+    @Setter
     private boolean isActive = true;
 
     public Category() {
@@ -29,31 +34,4 @@ public class Category {
         this.isActive = true;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 }
