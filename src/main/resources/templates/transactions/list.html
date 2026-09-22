@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>BudgetBook - Meine Buchungen</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body>
+<body class="container mt-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Meine Buchungen</h2>
+    <div>
+        <a th:href="@{/transactions/new}" class="btn btn-primary">Neue Buchung</a>
+        <a th:href="@{/transactions/statistics}" class="btn btn-outline-secondary">Statistik</a>
+    </div>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+    <tr>
+        <th>Datum</th>
+        <th>Typ</th>
+        <th>Beschreibung</th>
+        <th>Kategorie-ID</th>
+        <th>Betrag</th>
+        <th>Aktionen</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tx : ${transactions}">
+        <td th:text="${tx.bookingDate}">2026-03-01</td>
+        <td>
+                    <span th:text="${tx.type}"
+                          th:class="${tx.type.name() == 'INCOME'} ? 'badge bg-success' : 'badge bg-danger'">
+                    </span>
+        </td>
+        <td th:text="${tx.description}">Beschreibung</td>
+        <td th:text="${tx.categoryId}">1</td>
+        <td th:text="${tx.amount + ' €'}">0.00 €</td>
+        <td>
+            <a th:href="@{/transactions/{id}/edit(id=${tx.id})}" class="btn btn-sm btn-warning">Bearbeiten</a>
+
+            <form th:action="@{/transactions/{id}/delete(id=${tx.id})}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Buchung wirklich löschen?')">Löschen</button>
+            </form>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(transactions)}">
+        <td colspan="6" class="text-center text-muted">Keine Buchungen vorhanden.</td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>
