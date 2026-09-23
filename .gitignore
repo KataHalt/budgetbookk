@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+/data/budgetbook.mv.db
+/data/budgetbook.trace.db
+/data/meinedb.mv.db
+/data/meinedb.trace.db
