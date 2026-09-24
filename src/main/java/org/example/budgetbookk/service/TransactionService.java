@@ -18,19 +18,17 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    // Nur Buchungen des aktuellen Users zurückgeben
     public List<Transaction> getTransactionsForUser(String username) {
         return transactionRepository.findAllByUsername(username);
     }
 
-    // Das geforderte Sicherheitsmuster für Details, Edit und Delete
     public Transaction getOwnedTransaction(Long id, String username) {
         return transactionRepository.findByIdAndUsername(id, username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Buchung nicht gefunden oder keine Berechtigung"));
     }
 
     public void save(Transaction transaction, String username) {
-        transaction.setUsername(username); // Automatisch den angemeldeten User zuweisen
+        transaction.setUsername(username);
         if (transaction.getCreatedAt() == null) {
             transaction.setCreatedAt(LocalDate.now());
         }
@@ -38,7 +36,7 @@ public class TransactionService {
     }
 
     public void delete(Long id, String username) {
-        Transaction transaction = getOwnedTransaction(id, username); // Prüft vorher die Berechtigung
+        Transaction transaction = getOwnedTransaction(id, username);
         transactionRepository.delete(transaction);
     }
 }
