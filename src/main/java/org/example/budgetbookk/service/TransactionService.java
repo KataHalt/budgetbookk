@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -17,21 +18,27 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    // Nur Buchungen des aktuellen Users zurückgeben
     public List<Transaction> getTransactionsForUser(String username) {
-        return transactionRepository.findAll();
+        return transactionRepository.findAllByUsername(username);
     }
 
+    // Das geforderte Sicherheitsmuster für Details, Edit und Delete
     public Transaction getOwnedTransaction(Long id, String username) {
-        return transactionRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Buchung nicht gefunden"));
+        return transactionRepository.findByIdAndUsername(id, username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Buchung nicht gefunden oder keine Berechtigung"));
     }
 
-    public void save(Transaction transaction) {
+    public void save(Transaction transaction, String username) {
+        transaction.setUsername(username); // Automatisch den angemeldeten User zuweisen
+        if (transaction.getCreatedAt() == null) {
+            transaction.setCreatedAt(LocalDate.now());
+        }
         transactionRepository.save(transaction);
     }
 
     public void delete(Long id, String username) {
-        Transaction transaction = getOwnedTransaction(id, username);
+        Transaction transaction = getOwnedTransaction(id, username); // Prüft vorher die Berechtigung
         transactionRepository.delete(transaction);
     }
 }

@@ -38,7 +38,7 @@
 
     <div class="mb-3">
         <label for="categoryId" class="form-label">Kategorie</label>
-        <select id="categoryId" th:field="*{category}" class="form-select" th:classappend="${#fields.hasErrors('categoryId')} ? 'is-invalid'">
+        <select id="categoryId" th:field="*{categoryId}" class="form-select" th:classappend="${#fields.hasErrors('categoryId')} ? 'is-invalid'">
             <option value="">Kategorie wählen...</option>
             <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}">Kategorie</option>
         </select>
@@ -50,8 +50,6 @@
         <input type="text" id="description" th:field="*{description}" class="form-control" th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'">
         <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Beschreibung prüfen</div>
     </div>
-
-    <div> </div>
 
     <button type="submit" class="btn btn-success">Speichern</button>
     <a th:href="@{/transactions}" class="btn btn-secondary">Abbrechen</a>

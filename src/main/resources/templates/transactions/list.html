@@ -30,9 +30,9 @@
     <tr th:each="tx : ${transactions}">
         <td th:text="${tx.bookingDate}">2026-03-01</td>
         <td>
-                    <span th:text="${tx.type}"
-                          th:class="${tx.type.name() == 'INCOME'} ? 'badge bg-success' : 'badge bg-danger'">
-                    </span>
+            <span th:text="${tx.type}"
+                  th:class="${tx.type.name() == 'INCOME'} ? 'badge bg-success' : 'badge bg-danger'">
+            </span>
         </td>
         <td th:text="${tx.description}">Beschreibung</td>
         <td th:text="${tx.categoryId}">1</td>

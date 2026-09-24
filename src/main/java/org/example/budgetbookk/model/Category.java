@@ -27,11 +27,4 @@ public class Category {
 
     public Category() {
     }
-
-    public Category(String name, TransactionType type) {
-        this.name = name;
-        this.type = type;
-        this.isActive = true;
-    }
-
 }
